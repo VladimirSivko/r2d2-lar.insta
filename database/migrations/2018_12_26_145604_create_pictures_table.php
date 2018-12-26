@@ -3,19 +3,20 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePicturesTable extends Migration
-{
+class CreatePicturesTable extends Migration {
+
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('pictures', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-        });
+    public function up() {
+	Schema::create('pictures', function (Blueprint $table) {
+	    $table->increments('id');
+	    $table->integer('user_id')->unsigned()->index();
+	    $table->string('path_to_picture');
+	    $table->timestamps();
+	});
     }
 
     /**
@@ -23,8 +24,8 @@ class CreatePicturesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::drop('pictures');
+    public function down() {
+	Schema::drop('pictures');
     }
+
 }
