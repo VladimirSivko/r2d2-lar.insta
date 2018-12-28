@@ -25,7 +25,10 @@ class PictureController extends Controller {
      * @return Response
      */
     public function index(Request $request) {
-        return view('pictures.index');
+        $pictures = Picture::orderBy('created_at', 'asc')->get();
+        return view('pictures.index', [
+        'pictures' => $pictures
+    ]);
     }
 
     public function store(Request $request) {

@@ -22,5 +22,21 @@
     </form>
 </div>
 
+@if (count($pictures) > 0)
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Мои изображения</h2>
+    </div>
+    <br/>
+    <div class="panel-body">
+	<dl>
+	    @foreach ($pictures as $picture)
+	    <dt>{{ $picture->title }}</dt>
+            <dd><img src="{{asset('storage/images/'.$picture->path_to_picture)}}" width="400" height="200"></dd>
+	    @endforeach
+	</dl>
+    </div>
+</div>
+@endif
 <!-- TODO: Текущие задачи -->
 @endsection
