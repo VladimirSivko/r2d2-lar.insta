@@ -9,13 +9,14 @@
     @include('common.errors')
 
     <!-- Форма добавления изображения -->
-    <form action="/admin/page" enctype="multipart/form-data" method="post">
+    <form action="/admin/picture" enctype="multipart/form-data" method="post">
 	{{ csrf_field() }}
 	<div class="form-group">
 	    <input type="text" name="title" class="form-control" placeholder="Заголовок">
+            <input type="hidden" name="path_to_picture"/>
 	</div>
 	<div class="form-group">
-	    <input type="file" name="img" accept="image/*">
+	    <input type="file" name="image" accept="image/*">
 	</div>
 	<button type="submit" class="btn btn-default btn-block">Добавить картинку</button>
     </form>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Picture;
+use Illuminate\Support\Facades\Storage;
 
 class PictureController extends Controller {
 
@@ -14,7 +15,7 @@ class PictureController extends Controller {
      * @return void
      */
     public function __construct() {
-	$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -24,24 +25,24 @@ class PictureController extends Controller {
      * @return Response
      */
     public function index(Request $request) {
-	return view('pictures.index');
+        return view('pictures.index');
     }
 
     public function store(Request $request) {
 
-	$picture = new Picture($request->except('img'));
-	if ($request->hasFile('img')) {
-	    $file = $request->file('img');
-	    $destinationPath = public_path() . '/house/uploads/';
-	    $filename = str_random(20) . '.' . $file->getClientOriginalExtension() ?: 'png';
-	    $page->img = $filename;
-	    if ($request->hasFile('img')) {
-		$request->file('img')->move($destinationPath, $filename);
-	    }
-	}
-	$picture->save();
+        if ($request->isMethod('post')) {
 
-	return redirect()->route('picture.index');
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                //$file->move(public_path() . '/pictures', 'filename.img');
+                Storage::put('public/images/'.$file->getClientOriginalName(),file_get_contents($request->file('image')->getRealPath()));
+            }
+            $new_picture = new Picture;
+            $new_picture->title = $request->title;
+            $new_picture->path_to_picture = $file->getClientOriginalName();
+            $new_picture->save();
+            return redirect('/pictures');
+        }
     }
 
 }
